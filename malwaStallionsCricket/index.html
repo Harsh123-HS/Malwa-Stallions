@@ -4,527 +4,695 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malwa Stallions – Registration</title>
-<link rel="icon" type="image/png" href="logo.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          navy: { 900: '#050d1a', 800: '#091428', 700: '#0d1e3a', 600: '#122447' },
-          gold:  { 400: '#f5c842', 500: '#e6b800', 300: '#fad96a', 200: '#fde89a' }
-        },
-        fontFamily: {
-          display: ['Cinzel', 'serif'],
-          body:    ['Rajdhani', 'sans-serif']
-        }
-      }
-    }
-  }
-</script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
+:root {
+  --gold:       #C9960C;
+  --gold-light: #D4A017;
+  --gold-pale:  #E8C060;
+  --gold-dim:   #8A6508;
+  --navy-900:   #050d1a;
+  --navy-800:   #091428;
+  --text:       #EDE0C4;
+  --text-muted: rgba(237,224,196,.42);
+  --border:     rgba(201,150,12,.2);
+}
 
-  body {
-    margin: 0;
-    font-family: 'Rajdhani', sans-serif;
-    background: #050d1a;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  /* ── Stadium backdrop ── */
-  .stadium-bg {
-    position: fixed; inset: 0; z-index: 0;
-    background:
-      linear-gradient(160deg, rgba(5,13,26,.82) 0%, rgba(9,20,40,.70) 50%, rgba(5,13,26,.90) 100%),
-      url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;
-  }
-  .stadium-bg::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 80%, rgba(230,184,0,.08), transparent 70%);
-  }
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--navy-900);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text);
+}
 
-  /* ── Glassmorphism card ── */
-  .glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgba(230,184,0,.18);
-    box-shadow: 0 8px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08);
-  }
+/* Backdrop */
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    linear-gradient(160deg,rgba(5,13,26,.91) 0%,rgba(9,20,40,.79) 50%,rgba(5,13,26,.94) 100%),
+    url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1600&q=80') center/cover no-repeat;
+}
+.bg::after {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 50% 95%,rgba(201,150,12,.09),transparent 65%);
+}
 
-  /* ── Step transitions ── */
-  .step-wrap { position: relative; overflow: hidden; min-height: 160px; }
+/* Layout */
+.wrap {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 2.5rem 1rem 3rem;
+}
+.inner { width: 100%; max-width: 680px; }
 
-  .step-panel {
-    position: absolute; top: 0; left: 0; right: 0;
-    transition: transform .32s cubic-bezier(.4,0,.2,1), opacity .32s ease;
-    will-change: transform, opacity;
-  }
-  .step-panel.enter-right  { transform: translateX(100%); opacity: 0; }
-  .step-panel.enter-left   { transform: translateX(-100%); opacity: 0; }
-  .step-panel.active       { transform: translateX(0);   opacity: 1; position: relative; }
-  .step-panel.exit-left    { transform: translateX(-100%); opacity: 0; }
-  .step-panel.exit-right   { transform: translateX(100%);  opacity: 0; }
+/* Branding */
+.brand { text-align: center; margin-bottom: 1.6rem; user-select: none; }
+.brand-eyebrow {
+  font-family: 'Cinzel', serif; font-size: .68rem;
+  letter-spacing: .5em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: .35rem;
+}
+.brand-name {
+  font-family: 'Cinzel', serif; font-weight: 900;
+  font-size: clamp(1.55rem, 5vw, 2.7rem);
+  letter-spacing: .12em; color: var(--gold-light);
+  text-shadow: 0 0 48px rgba(201,150,12,.32); line-height: 1.1;
+}
+.brand-tag { font-size: .78rem; letter-spacing: .3em; color: var(--text-muted); margin-top: .5rem; text-transform: uppercase; }
+.brand-rule { width: 5.5rem; height: 1px; background: linear-gradient(to right,transparent,var(--gold),transparent); margin: .7rem auto 0; }
 
-  /* ── Inputs ── */
-  .field-input {
-    width: 100%;
-    background: rgba(255,255,255,.06);
-    border: 1.5px solid rgba(230,184,0,.25);
-    border-radius: 10px;
-    color: #f0e6c8;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 500;
-    padding: .72rem 1rem;
-    outline: none;
-    transition: border-color .2s, box-shadow .2s, transform .18s;
-  }
-  .field-input::placeholder { color: rgba(240,230,200,.35); }
-  .field-input:focus {
-    border-color: rgba(230,184,0,.7);
-    box-shadow: 0 0 0 3px rgba(230,184,0,.12);
-    transform: scale(1.012);
-    background: rgba(255,255,255,.09);
-  }
-  .field-input:read-only { opacity: .65; cursor: default; }
-  select.field-input option { background: #091428; color: #f0e6c8; }
+/* Card */
+.card {
+  background: linear-gradient(135deg,rgba(255,255,255,.065) 0%,rgba(255,255,255,.018) 100%);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 14px 80px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.07);
+  padding: 1.75rem 1.35rem 1.75rem;
+}
+@media(min-width:560px){ .card{ padding: 2.5rem 2.8rem; } }
 
-  /* ── File input ── */
-  .file-label {
-    display: flex; align-items: center; gap: .75rem;
-    background: rgba(255,255,255,.06);
-    border: 1.5px dashed rgba(230,184,0,.35);
-    border-radius: 10px;
-    padding: .85rem 1rem;
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-    color: rgba(240,230,200,.65);
-    font-size: .95rem;
-  }
-  .file-label:hover { border-color: rgba(230,184,0,.7); background: rgba(255,255,255,.09); }
-  .file-label .file-icon { font-size: 1.5rem; }
+/* Progress */
+.prog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .65rem; }
+.prog-label { font-size: .72rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-pale); }
+.prog-counter { font-size: .7rem; font-weight: 600; color: var(--gold); letter-spacing: .1em; }
+.prog-track { display: flex; gap: .45rem; height: 4px; }
+.prog-seg {
+  flex: 1; border-radius: 3px; background: rgba(255,255,255,.1);
+  transition: background .4s ease; position: relative; overflow: hidden;
+}
+.prog-seg.on { background: var(--gold-light); }
+.prog-seg.on::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+  animation: shimmer 1.8s infinite;
+}
+@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-  /* ── Buttons ── */
-  .btn-gold {
-    background: linear-gradient(135deg, #e6b800 0%, #f5c842 50%, #e6b800 100%);
-    background-size: 200% 100%;
-    color: #050d1a;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: .08em;
-    padding: .72rem 2rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-position .3s, box-shadow .3s, transform .15s;
-    text-transform: uppercase;
-  }
-  .btn-gold:hover {
-    background-position: 100% 0;
-    box-shadow: 0 0 22px rgba(230,184,0,.55), 0 4px 12px rgba(0,0,0,.4);
-    transform: translateY(-1px);
-  }
-  .btn-gold:active { transform: translateY(0) scale(.98); }
+/* Section divider */
+.divider { display:flex; align-items:center; gap:.85rem; margin:1.55rem 0 1.05rem; }
+.divider::before,.divider::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(to right,transparent,rgba(201,150,12,.18),transparent);
+}
+.divider span {
+  font-size:.68rem; font-weight:700; letter-spacing:.22em;
+  text-transform:uppercase; color:rgba(201,150,12,.48); white-space:nowrap;
+}
 
-  .btn-ghost {
-    background: transparent;
-    color: rgba(240,230,200,.65);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: .06em;
-    padding: .72rem 1.5rem;
-    border: 1.5px solid rgba(240,230,200,.2);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color .2s, color .2s, transform .15s;
-    text-transform: uppercase;
-  }
-  .btn-ghost:hover { border-color: rgba(230,184,0,.5); color: #f5c842; transform: translateY(-1px); }
+/* Grid */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:.9rem 1.1rem; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.9rem 1.1rem; }
+.s2 { grid-column: span 2; }
 
-  /* ── Progress bar ── */
-  #progress-fill { transition: width .35s cubic-bezier(.4,0,.2,1); }
+@media(max-width:520px){
+  .g2 { grid-template-columns:1fr; }
+  .g3 { grid-template-columns:1fr 1fr; }
+  .s2 { grid-column: span 1; }
+  .s2m { grid-column: span 2; }
+}
 
-  /* ── Error ── */
-  .err-msg { color: #ff7b7b; font-size: .85rem; margin-top: .35rem; display: none; }
-  .err-msg.show { display: block; animation: shake .3s ease; }
-  @keyframes shake {
-    0%,100%{ transform: translateX(0) }
-    25%    { transform: translateX(-5px) }
-    75%    { transform: translateX(5px) }
-  }
+/* Field label */
+.lbl {
+  display:block; font-size:.7rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:rgba(201,150,12,.62); margin-bottom:.35rem;
+}
+.lbl .r { color:var(--gold-light); margin-left:2px; }
+.lbl .o { color:var(--text-muted); font-size:.62rem; font-weight:500;
+           margin-left:3px; text-transform:none; letter-spacing:0; }
 
-  /* ── Success screen ── */
-  #success-screen { display: none; }
-  #success-screen.show { display: flex; animation: fadeIn .5s ease; }
-  @keyframes fadeIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+/* Inputs */
+.inp {
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(201,150,12,.18);
+  border-radius:9px;
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif; font-size:.97rem; font-weight:500;
+  padding:.65rem .95rem;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  appearance:none; -webkit-appearance:none;
+}
+.inp::placeholder { color:var(--text-muted); }
+.inp:focus {
+  border-color:rgba(201,150,12,.58);
+  box-shadow:0 0 0 3px rgba(201,150,12,.1);
+  background:rgba(255,255,255,.072);
+}
+.inp[readonly] { opacity:.52; cursor:default; background:rgba(255,255,255,.025); }
+.inp:disabled  { opacity:.35; cursor:not-allowed; }
+select.inp option { background:var(--navy-800); color:var(--text); }
 
-  /* ── Lion SVG glow ── */
-  .lion-glow { filter: drop-shadow(0 0 14px rgba(230,184,0,.55)); }
+/* select arrow */
+.sw { position:relative; }
+.sw::after {
+  content:'▾'; position:absolute; right:.85rem; top:50%; transform:translateY(-50%);
+  color:var(--gold); pointer-events:none; font-size:.78rem; line-height:1;
+}
 
-  /* ── Step dots ── */
-  .step-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,255,255,.18);
-    transition: background .3s, transform .3s;
-    flex-shrink: 0;
-  }
-  .step-dot.done    { background: rgba(230,184,0,.5); }
-  .step-dot.current { background: #f5c842; transform: scale(1.5); }
+/* File */
+.file-lbl {
+  display:flex; align-items:center; gap:.65rem;
+  background:rgba(255,255,255,.05);
+  border:1.5px dashed rgba(201,150,12,.26);
+  border-radius:9px; padding:.7rem .95rem;
+  cursor:pointer;
+  transition:border-color .2s,background .2s;
+  color:var(--text-muted); font-size:.9rem;
+  font-family:'Rajdhani',sans-serif; min-height:46px;
+}
+.file-lbl:hover { border-color:rgba(201,150,12,.58); background:rgba(255,255,255,.072); color:var(--text); }
 
-  /* ── Confetti ── */
-  @keyframes confetti-fall {
-    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(420px) rotate(720deg); opacity: 0; }
-  }
-  .confetti-piece { position: absolute; width: 8px; height: 8px; border-radius: 2px; animation: confetti-fall 1.6s ease forwards; }
+/* Error */
+.err { font-size:.77rem; color:#ff7b7b; margin-top:.26rem; display:none; font-family:'Rajdhani',sans-serif; }
+.err.on { display:block; animation:shake .25s ease; }
+.inp.bad { border-color:rgba(255,100,100,.42)!important; }
+
+@keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-5px)}70%{transform:translateX(5px)}}
+
+/* Buttons */
+.btn-gold {
+  display:flex; align-items:center; justify-content:center; gap:.4rem;
+  width:100%;
+  background:linear-gradient(135deg,#A87409 0%,#C9960C 35%,#D4A017 60%,#B8850A 100%);
+  background-size:200% 100%;
+  color:#060400;
+  font-family:'Rajdhani',sans-serif; font-weight:700;
+  font-size:.93rem; letter-spacing:.1em; text-transform:uppercase;
+  padding:.78rem 1.5rem; border:none; border-radius:10px; cursor:pointer;
+  transition:background-position .35s,box-shadow .3s,transform .15s;
+  box-shadow:0 2px 18px rgba(0,0,0,.32);
+}
+.btn-gold:hover {
+  background-position:100% 0;
+  box-shadow:0 0 32px rgba(201,150,12,.48),0 4px 20px rgba(0,0,0,.45);
+  transform:translateY(-1px);
+}
+.btn-gold:active { transform:scale(.98); box-shadow:none; }
+
+.btn-ghost {
+  display:flex; align-items:center; justify-content:center; gap:.4rem;
+  background:transparent; color:var(--text-muted);
+  font-family:'Rajdhani',sans-serif; font-weight:600;
+  font-size:.93rem; letter-spacing:.08em; text-transform:uppercase;
+  padding:.78rem 1.4rem; border:1.5px solid rgba(255,255,255,.13); border-radius:10px;
+  cursor:pointer; white-space:nowrap; flex-shrink:0;
+  transition:border-color .2s,color .2s,transform .15s;
+}
+.btn-ghost:hover { border-color:rgba(201,150,12,.38); color:var(--gold-pale); transform:translateY(-1px); }
+
+/* Nav row */
+.nav { display:flex; gap:.7rem; margin-top:1.75rem; align-items:stretch; }
+
+/* Page panels */
+.pages { position:relative; overflow:hidden; }
+.panel { transition:transform .38s cubic-bezier(.4,0,.2,1),opacity .38s ease; will-change:transform,opacity; }
+.panel.active   { transform:translateX(0); opacity:1; position:relative; }
+.panel.off-r    { transform:translateX(55px); opacity:0; pointer-events:none; position:absolute; inset:0; }
+.panel.off-l    { transform:translateX(-55px); opacity:0; pointer-events:none; position:absolute; inset:0; }
+
+/* Success */
+.success { display:none; flex-direction:column; align-items:center; text-align:center; padding:1.75rem 0 .75rem; position:relative; overflow:hidden; }
+.success.on { display:flex; animation:fadeUp .45s ease both; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.trophy { font-size:3.6rem; display:inline-block; margin-bottom:1rem; animation:tb 1s ease-in-out infinite alternate; }
+@keyframes tb{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-9px) rotate(4deg)}}
+
+.s-title { font-family:'Cinzel',serif; font-size:1.9rem; letter-spacing:.18em; color:var(--gold-light); margin-bottom:.35rem; }
+.s-sub   { font-size:1rem; color:var(--gold-pale); margin-bottom:.2rem; }
+.s-note  { font-size:.82rem; color:var(--text-muted); line-height:1.6; }
+
+.chips { display:flex; gap:.65rem; margin-top:1.35rem; flex-wrap:wrap; justify-content:center; }
+.chip {
+  background:rgba(255,255,255,.045); border:1px solid rgba(201,150,12,.18);
+  border-radius:9px; padding:.55rem 1rem; text-align:center; min-width:76px;
+}
+.chip-h { font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:.15em; color:var(--gold); }
+.chip-v { font-size:.72rem; color:var(--text-muted); margin-top:2px; }
+
+.s-rule { width:4.5rem; height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin:1.35rem auto 0; }
+
+/* Confetti */
+@keyframes fall{
+  0%{transform:translateY(-8px) rotate(0deg);opacity:1}
+  85%{opacity:.7}
+  100%{transform:translateY(480px) rotate(800deg);opacity:0}
+}
+.cf { position:absolute; animation:fall linear forwards; }
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(201,150,12,.18);border-radius:4px}
 </style>
 </head>
 <body>
 
-<!-- Stadium backdrop -->
-<div class="stadium-bg"></div>
+<div class="bg"></div>
 
-<!-- Page wrapper -->
-<div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-10">
-  <div class="w-full max-w-lg">
+<div class="wrap">
+<div class="inner">
 
-    <!-- Logo + branding -->
-    <div class="flex flex-col items-center mb-7 select-none">
-      <img src="./Logo.png" alt="" class="md:w-44 md:h-44 w-24 ">
-      <!-- <h1 class="font-display text-2xl md:text-5xl text-gold-400 tracking-widest text-center leading-tight">MALWA STALLIONS</h1> -->
-      <p class="font-body text-gold-300 text-sm tracking-[.25em] mt-1 opacity-80">JOIN THE PRIDE</p>
-      <div class="w-24 h-px bg-gradient-to-r from-transparent via-gold-500 to-transparent mt-3"></div>
-    </div>
-
-    <!-- Glass card -->
-    <div class="glass-card rounded-2xl p-6 md:p-8">
-
-      <!-- Progress bar -->
-      <div class="mb-5">
-        <div class="flex justify-between items-center mb-2">
-          <span class="font-body md:text-lg text-gold-300 tracking-widest uppercase">Registration Progress</span>
-          <span id="step-counter" class="font-body md:text-lg text-xs text-gold-400 font-semibold"></span>
-        </div>
-        <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div id="progress-fill" class="h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-300" style="width:0%"></div>
-        </div>
-        <!-- Step dots -->
-        <div id="step-dots" class="flex justify-center gap-1.5 mt-3 flex-wrap"></div>
-      </div>
-
-      <!-- Form -->
-      <form id="reg-form" novalidate>
-        <div class="step-wrap" id="step-wrap"></div>
-
-        <!-- Navigation buttons -->
-        <div class="flex gap-3 mt-6" id="nav-buttons">
-          <button type="button" id="btn-back"  class="btn-ghost flex-1 hidden">← Back</button>
-          <button type="button" id="btn-next"  class="btn-gold flex-1">Next →</button>
-          <button type="button" id="btn-submit" class="btn-gold flex-1 hidden">Submit ✦</button>
-        </div>
-      </form>
-
-      <!-- Success screen -->
-      <div id="success-screen" class="flex-col items-center justify-center text-center py-6 relative overflow-hidden">
-        <div id="confetti-container" class="absolute inset-0 pointer-events-none"></div>
-        <div class="text-6xl mb-4 animate-bounce">🏆</div>
-        <h2 class="font-display text-2xl text-gold-400 tracking-widest mb-2">REGISTERED!</h2>
-        <p class="font-body text-gold-200 text-lg mb-1">Welcome to Malwa Stallions</p>
-        <p class="font-body text-white/50 text-sm">Your application has been received.<br>We'll contact you shortly.</p>
-        <div class="mt-5 w-16 h-px bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto"></div>
-      </div>
-
-    </div>
-
-    <!-- Footer -->
-    <p class="text-center font-body text-white/20 text-xs mt-5 tracking-wider">© 2026 MALWA STALLIONS CRICKET ACADEMY</p>
+  <!-- Branding -->
+  <div class="brand ">
+  <img src="./Logo.png" alt="" class="md:w-44 md:h-44 w-24 h-24 item-center md:ml-60 ml-28 pl-4 md mb-4">
+    <!-- <h1 class="brand-name">CRICKET ACADEMY</h1> -->
+    <p class="brand-tag">Player Registration 2026</p>
+    <div class="brand-rule"></div>
   </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <!-- Progress -->
+    <div id="prog-block" style="margin-bottom:1.6rem">
+      <div class="prog-head">
+        <span class="prog-label" id="prog-lbl">Basic Info</span>
+        <span class="prog-counter" id="prog-cnt">Page 1 of 2</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-seg on" id="s1"></div>
+        <div class="prog-seg"    id="s2"></div>
+      </div>
+    </div>
+
+    <!-- Pages -->
+    <div class="pages" id="pages">
+
+      <!-- PAGE 1 -->
+      <div class="panel active" id="p1">
+
+        <div class="divider"><span>Personal Details</span></div>
+
+        <div class="g2">
+          <div class="s2">
+            <label class="lbl">Full Name <span class="r">*</span></label>
+            <input type="text" id="fullName" class="inp" placeholder="Enter your full name" autocomplete="name">
+            <div class="err" id="e-fullName">⚠ Full name is required</div>
+          </div>
+          <div>
+            <label class="lbl">Date of Birth <span class="r">*</span></label>
+            <input type="date" id="dob" class="inp">
+            <div class="err" id="e-dob">⚠ Date of birth is required</div>
+          </div>
+          <div>
+            <label class="lbl">Age <span class="o">(auto)</span></label>
+            <input type="number" id="age" class="inp" placeholder="Auto-calculated" readonly tabindex="-1">
+            <div class="err" id="e-age">⚠ Age must be 15–60</div>
+          </div>
+        </div>
+
+        <div class="divider"><span>Contact &amp; Identity</span></div>
+
+        <div class="g2">
+          <div>
+            <label class="lbl">Mobile <span class="r">*</span></label>
+            <input type="tel" id="mobile" class="inp" placeholder="+91 98765 43210" autocomplete="tel" maxlength="14">
+            <div class="err" id="e-mobile">⚠ Enter valid 10-digit Indian number</div>
+          </div>
+          <div>
+            <label class="lbl">Email <span class="r">*</span></label>
+            <input type="email" id="email" class="inp" placeholder="you@example.com" autocomplete="email">
+            <div class="err" id="e-email">⚠ Enter a valid email address</div>
+          </div>
+          <div>
+            <label class="lbl">Gender <span class="r">*</span></label>
+            <div class="sw">
+              <select id="gender" class="inp">
+                <option value="">Select Gender</option>
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </div>
+            <div class="err" id="e-gender">⚠ Please select gender</div>
+          </div>
+          <div>
+            <label class="lbl">State <span class="r">*</span></label>
+            <div class="sw">
+              <select id="state" class="inp"><option value="">Select State</option></select>
+            </div>
+            <div class="err" id="e-state">⚠ Please select a state</div>
+          </div>
+          <div class="s2">
+            <label class="lbl">City <span class="r">*</span></label>
+            <div class="sw">
+              <select id="city" class="inp" disabled><option value="">Select state first</option></select>
+            </div>
+            <div class="err" id="e-city">⚠ Please select a city</div>
+          </div>
+        </div>
+
+      </div><!-- /p1 -->
+
+      <!-- PAGE 2 -->
+      <div class="panel off-r" id="p2">
+
+        <div class="divider"><span>Physical Stats</span></div>
+
+        <div class="g3">
+          <div>
+            <label class="lbl">Height (cm) <span class="r">*</span></label>
+            <input type="number" id="height" class="inp" placeholder="e.g. 175" min="100" max="250">
+            <div class="err" id="e-height">⚠ Enter valid height (100–250 cm)</div>
+          </div>
+          <div>
+            <label class="lbl">Weight (kg) <span class="o">(opt)</span></label>
+            <input type="number" id="weight" class="inp" placeholder="e.g. 70" min="30" max="200">
+          </div>
+          <div>
+            <label class="lbl">Shirt Size <span class="o">(opt)</span></label>
+            <div class="sw">
+              <select id="shirtSize" class="inp">
+                <option value="">Select</option>
+                <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"><span>Playing Profile</span></div>
+
+        <div class="g2">
+          <div>
+            <label class="lbl">Bowling Style <span class="o">(opt)</span></label>
+            <div class="sw">
+              <select id="bowlingStyle" class="inp">
+                <option value="">Select Style</option>
+                <option>Right-arm fast</option><option>Right-arm medium</option>
+                <option>Left-arm fast</option><option>Left-arm medium</option>
+                <option>Left-arm spin</option><option>Off-spin</option>
+                <option>Leg-spin</option><option>Not a bowler</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="lbl">Experience (Yrs) <span class="r">*</span></label>
+            <input type="number" id="experience" class="inp" placeholder="e.g. 5" min="0" max="50">
+            <div class="err" id="e-experience">⚠ Playing experience is required</div>
+          </div>
+          <div class="s2">
+            <label class="lbl">Highest Level Played <span class="r">*</span></label>
+            <div class="sw">
+              <select id="highestLevel" class="inp">
+                <option value="">Select Level</option>
+                <option>School</option><option>Club</option>
+                <option>District</option><option>State</option><option>National</option>
+              </select>
+            </div>
+            <div class="err" id="e-highestLevel">⚠ Please select highest level</div>
+          </div>
+        </div>
+
+        <div class="divider"><span>Documents</span></div>
+
+        <div class="g2">
+          <div>
+            <label class="lbl">Passport Photo <span class="o">(opt)</span></label>
+            <input type="file" id="photo" accept="image/*" style="display:none" onchange="onFile(this,'pt')">
+            <label for="photo" class="file-lbl"><span>📷</span><span id="pt">Upload passport photo</span></label>
+          </div>
+          <div>
+            <label class="lbl">ID Proof <span class="o">(opt)</span></label>
+            <input type="file" id="idProof" accept="image/*,application/pdf" style="display:none" onchange="onFile(this,'ip')">
+            <label for="idProof" class="file-lbl"><span>📄</span><span id="ip">Aadhaar / School ID</span></label>
+          </div>
+        </div>
+
+      </div><!-- /p2 -->
+
+    </div><!-- /pages -->
+
+    <!-- Nav -->
+    <div class="nav" id="nav">
+      <button type="button" id="bbk" class="btn-ghost" style="display:none">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M9 2L4 6.5L9 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <button type="button" id="bnx" class="btn-gold">
+        Next
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M4 2L9 6.5L4 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" id="bsb" class="btn-gold" style="display:none">
+        Submit Registration ✦
+      </button>
+    </div>
+
+    <!-- Success -->
+    <div class="success" id="suc">
+      <div id="cfbox" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+      <div class="trophy">🏆</div>
+      <h2 class="s-title">YOU'RE IN!</h2>
+      <p class="s-sub">Welcome to Malwa Stallions Cricket Academy</p>
+      <p class="s-note">Your application has been received.<br>Our team will reach out to you shortly.</p>
+      <!-- <div class="chips">
+        <div class="chip"><div class="chip-h">TRIALS</div><div class="chip-v">April 2026</div></div>
+        <div class="chip"><div class="chip-h">VENUE</div><div class="chip-v">Indore, MP</div></div>
+        <div class="chip"><div class="chip-h">STATUS</div><div class="chip-v">Confirmed ✓</div></div>
+      </div> -->
+      <div class="s-rule"></div>
+    </div>
+
+  </div><!-- /card -->
+
+  <p style="text-align:center;font-size:.68rem;color:rgba(255,255,255,.11);margin-top:1.1rem;letter-spacing:.14em;text-transform:uppercase">
+    © 2026 Malwa Stallions Cricket Academy · All Rights Reserved
+  </p>
+</div>
 </div>
 
 <script>
-// ── Step definitions ──────────────────────────────────────────
-const STEPS = [
-  {
-    id: 'fullName', label: 'Full Name', type: 'text',
-    placeholder: 'Enter your full name', required: true,
-    hint: 'As per official ID'
-  },
-  {
-    id: 'dob', label: 'Date of Birth', type: 'date',
-    required: true, hint: 'Used to auto-calculate your age'
-  },
-  {
-    id: 'age', label: 'Age', type: 'number',
-    placeholder: 'Auto-calculated', required: false,
-    readonly: true, hint: 'Calculated from your date of birth'
-  },
-  {
-    id: 'mobile', label: 'Mobile Number', type: 'tel',
-    placeholder: '+91 XXXXX XXXXX', required: true,
-    hint: 'WhatsApp preferred'
-  },
-  {
-    id: 'email', label: 'Email ID', type: 'email',
-    placeholder: 'you@example.com', required: false,
-    hint: 'Optional — for confirmation emails'
-  },
-  {
-    id: 'city', label: 'City / District', type: 'text',
-    placeholder: 'e.g. Indore, Ujjain', required: true,
-    hint: 'Your current city or district'
-  },
-  {
-    id: 'state', label: 'State', type: 'text',
-    placeholder: 'e.g. Madhya Pradesh', required: true
-  },
-  {
-    id: 'gender', label: 'Gender', type: 'text',
-    placeholder: 'Male', required: false,
-    readonly: true, defaultValue: 'Male',
-    hint: 'Tournament is open to male players'
-  },
-  {
-    id: 'height', label: 'Height (cm)', type: 'number',
-    placeholder: 'e.g. 175', required: true
-  },
-  {
-    id: 'weight', label: 'Weight (kg)', type: 'number',
-    placeholder: 'e.g. 70', required: false,
-    hint: 'Optional'
-  },
-  {
-    id: 'bowlingStyle', label: 'Bowling Style', type: 'select',
-    required: false,
-    options: ['Select Bowling Style','Right-arm fast','Right-arm medium','Left-arm fast','Left-arm spin','Off-spin','Leg-spin']
-  },
-  {
-    id: 'experience', label: 'Playing Experience (Years)', type: 'number',
-    placeholder: 'e.g. 5', required: true
-  },
-  {
-    id: 'highestLevel', label: 'Highest Level Played', type: 'select',
-    required: true,
-    options: ['Select Level','School','Club','District','State']
-  },
-  {
-    id: 'shirtSize', label: 'Shirt Size', type: 'select',
-    required: false,
-    options: ['Select Size','S','M','L','XL']
-  },
-  {
-    id: 'photo', label: 'Passport Photo', type: 'file',
-    accept: 'image/*', required: false,
-    hint: 'Clear face photo (JPG/PNG)'
-  },
-  {
-    id: 'idProof', label: 'ID Proof', type: 'file',
-    accept: 'image/*,application/pdf', required: false,
-    hint: 'Aadhaar / School ID / Any govt. ID'
-  }
-];
+/* ─── State / City data ─────────────────────────────────── */
+const SC = {
+  "Andhra Pradesh":["Visakhapatnam","Vijayawada","Guntur","Nellore","Kurnool","Tirupati","Rajahmundry","Kakinada"],
+  "Arunachal Pradesh":["Itanagar","Naharlagun","Pasighat","Tezpur","Bomdila"],
+  "Assam":["Guwahati","Silchar","Dibrugarh","Jorhat","Nagaon","Tinsukia"],
+  "Bihar":["Patna","Gaya","Bhagalpur","Muzaffarpur","Purnia","Darbhanga","Bihar Sharif"],
+  "Chhattisgarh":["Raipur","Bhilai","Bilaspur","Korba","Durg","Rajnandgaon"],
+  "Goa":["Panaji","Margao","Vasco","Mapusa","Ponda"],
+  "Gujarat":["Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Gandhinagar"],
+  "Haryana":["Faridabad","Gurugram","Panipat","Ambala","Hisar","Karnal","Rohtak"],
+  "Himachal Pradesh":["Shimla","Dharamshala","Manali","Solan","Mandi","Kullu"],
+  "Jharkhand":["Ranchi","Jamshedpur","Dhanbad","Bokaro","Deoghar","Hazaribagh"],
+  "Karnataka":["Bengaluru","Mysuru","Hubballi","Mangaluru","Belagavi","Kalaburagi","Davangere"],
+  "Kerala":["Thiruvananthapuram","Kochi","Kozhikode","Thrissur","Kollam","Palakkad","Malappuram"],
+  "Madhya Pradesh":["Indore","Bhopal","Jabalpur","Gwalior","Ujjain","Sagar","Dewas","Satna","Ratlam","Rewa"],
+  "Maharashtra":["Mumbai","Pune","Nagpur","Nashik","Aurangabad","Solapur","Thane","Kolhapur"],
+  "Manipur":["Imphal","Bishnupur","Churachandpur","Thoubal"],
+  "Meghalaya":["Shillong","Tura","Jowai","Nongpoh"],
+  "Mizoram":["Aizawl","Lunglei","Serchhip","Champhai"],
+  "Nagaland":["Kohima","Dimapur","Mokokchung","Tuensang"],
+  "Odisha":["Bhubaneswar","Cuttack","Rourkela","Brahmapur","Sambalpur","Puri"],
+  "Punjab":["Ludhiana","Amritsar","Jalandhar","Patiala","Bathinda","Mohali","Hoshiarpur"],
+  "Rajasthan":["Jaipur","Jodhpur","Udaipur","Kota","Bikaner","Ajmer","Bharatpur","Alwar"],
+  "Sikkim":["Gangtok","Namchi","Gyalshing","Mangan"],
+  "Tamil Nadu":["Chennai","Coimbatore","Madurai","Tiruchirappalli","Salem","Tirunelveli","Vellore","Erode"],
+  "Telangana":["Hyderabad","Warangal","Nizamabad","Karimnagar","Khammam","Ramagundam"],
+  "Tripura":["Agartala","Udaipur","Dharmanagar","Kailashahar"],
+  "Uttar Pradesh":["Lucknow","Kanpur","Agra","Varanasi","Meerut","Prayagraj","Bareilly","Aligarh","Moradabad","Noida"],
+  "Uttarakhand":["Dehradun","Haridwar","Roorkee","Haldwani","Rishikesh","Nainital"],
+  "West Bengal":["Kolkata","Howrah","Durgapur","Asansol","Siliguri","Bardhaman"],
+  "Delhi":["New Delhi","Dwarka","Rohini","Janakpuri","Saket","Lajpat Nagar"],
+  "Jammu and Kashmir":["Srinagar","Jammu","Anantnag","Baramulla","Sopore"],
+  "Ladakh":["Leh","Kargil"],
+  "Chandigarh":["Chandigarh"],
+  "Puducherry":["Puducherry","Karaikal","Mahe","Yanam"],
+  "Andaman and Nicobar":["Port Blair","Diglipur","Rangat"],
+  "Dadra and Nagar Haveli":["Silvassa","Amli","Khanvel"],
+  "Daman and Diu":["Daman","Diu"],
+  "Lakshadweep":["Kavaratti","Agatti","Amini"]
+};
 
-const TOTAL = STEPS.length;
-let current = 0;
-const values = {};
-
-// ── Build dots ────────────────────────────────────────────────
-const dotsContainer = document.getElementById('step-dots');
-STEPS.forEach((_, i) => {
-  const d = document.createElement('div');
-  d.className = 'step-dot';
-  d.id = `dot-${i}`;
-  dotsContainer.appendChild(d);
+/* populate states */
+const stEl = document.getElementById('state');
+Object.keys(SC).sort().forEach(s => {
+  const o = document.createElement('option');
+  o.value = s; o.textContent = s;
+  stEl.appendChild(o);
 });
 
-// ── Build all panels ──────────────────────────────────────────
-const wrap = document.getElementById('step-wrap');
-
-STEPS.forEach((step, i) => {
-  const panel = document.createElement('div');
-  panel.className = 'step-panel' + (i === 0 ? ' active' : ' enter-right');
-  panel.id = `panel-${i}`;
-
-  let inputHTML = '';
-
-  if (step.type === 'select') {
-    inputHTML = `<select id="input-${step.id}" class="field-input">
-      ${step.options.map((o,idx) => `<option value="${idx===0?'':o}">${o}</option>`).join('')}
-    </select>`;
-  } else if (step.type === 'file') {
-    inputHTML = `
-      <input type="file" id="input-${step.id}" accept="${step.accept||'*'}" class="hidden" onchange="handleFile(this,'${step.id}')">
-      <label for="input-${step.id}" class="file-label" id="file-label-${step.id}">
-        <span class="file-icon">📎</span>
-        <span id="file-text-${step.id}">Tap to upload ${step.label}</span>
-      </label>`;
-  } else {
-    inputHTML = `<input
-      type="${step.type}"
-      id="input-${step.id}"
-      class="field-input"
-      placeholder="${step.placeholder||''}"
-      ${step.readonly ? 'readonly' : ''}
-      ${step.type==='date' ? 'max="'+new Date().toISOString().split('T')[0]+'"' : ''}
-    >`;
-  }
-
-  panel.innerHTML = `
-    <div class="mb-1">
-      <label class="font-body text-gold-300 text-xs tracking-[.18em] uppercase font-semibold">
-        Step ${i+1} of ${TOTAL}
-      </label>
-      <h3 class="font-body text-white md:text-3xl text-xl font-semibold mt-0.5">${step.label}
-        ${step.required ? '<span class="text-gold-400 text-base">*</span>' : '<span class="text-white/30 text-xs font-normal ml-1">(optional)</span>'}
-      </h3>
-      ${step.hint ? `<p class="font-body text-white/40 text-sm mt-0.5">${step.hint}</p>` : ''}
-    </div>
-    <div class="mt-3">
-      ${inputHTML}
-      <div class="err-msg" id="err-${step.id}">⚠ This field is required</div>
-    </div>
-  `;
-  wrap.appendChild(panel);
+stEl.addEventListener('change', () => {
+  const ci = document.getElementById('city');
+  const list = SC[stEl.value] || [];
+  ci.innerHTML = '<option value="">Select City</option>';
+  list.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; ci.appendChild(o); });
+  ci.disabled = !list.length;
+  clrE('city');
 });
 
-// Pre-fill gender & age
-document.getElementById('input-gender').value = 'Male';
-
-// Auto-calc age from DOB
-document.getElementById('input-dob').addEventListener('change', e => {
-  const dob = new Date(e.target.value);
-  if (!isNaN(dob)) {
-    const today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    if (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate())) age--;
-    document.getElementById('input-age').value = age;
-  }
+/* DOB → age */
+const dobEl = document.getElementById('dob');
+dobEl.max = new Date().toISOString().split('T')[0];
+dobEl.addEventListener('change', () => {
+  const d = new Date(dobEl.value), ageEl = document.getElementById('age');
+  if (isNaN(d.getTime())) { ageEl.value = ''; return; }
+  const t = new Date();
+  let a = t.getFullYear() - d.getFullYear();
+  if (t < new Date(t.getFullYear(), d.getMonth(), d.getDate())) a--;
+  ageEl.value = a;
+  const eA = document.getElementById('e-age');
+  if (a < 15 || a > 60) {
+    eA.textContent = `⚠ Age ${a} is outside allowed range (15–60)`;
+    eA.classList.add('on'); ageEl.classList.add('bad');
+  } else { eA.classList.remove('on'); ageEl.classList.remove('bad'); }
 });
 
-// File handler
-function handleFile(input, id) {
-  const name = input.files[0]?.name || 'No file chosen';
-  document.getElementById(`file-text-${id}`).textContent = '✓ ' + name;
+/* file */
+function onFile(inp, tid) {
+  const n = inp.files[0]?.name;
+  document.getElementById(tid).textContent = n ? '✓ ' + n : (tid==='pt'?'Upload passport photo':'Aadhaar / School ID');
 }
 
-// ── UI update ─────────────────────────────────────────────────
-function updateUI() {
-  const pct = Math.round((current / (TOTAL - 1)) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('step-counter').textContent = `${current + 1} / ${TOTAL}`;
-
-  STEPS.forEach((_, i) => {
-    const dot = document.getElementById(`dot-${i}`);
-    dot.className = 'step-dot' + (i < current ? ' done' : i === current ? ' current' : '');
-  });
-
-  const btnBack   = document.getElementById('btn-back');
-  const btnNext   = document.getElementById('btn-next');
-  const btnSubmit = document.getElementById('btn-submit');
-
-  btnBack.classList.toggle('hidden', current === 0);
-  btnNext.classList.toggle('hidden',  current === TOTAL - 1);
-  btnSubmit.classList.toggle('hidden', current < TOTAL - 1);
+/* error helpers */
+function shwE(id, msg) {
+  const e = document.getElementById('e-'+id), i = document.getElementById(id);
+  if (e) { e.textContent = '⚠ ' + msg; e.classList.add('on'); }
+  if (i) i.classList.add('bad');
+}
+function clrE(id) {
+  const e = document.getElementById('e-'+id), i = document.getElementById(id);
+  if (e) e.classList.remove('on');
+  if (i) i.classList.remove('bad');
 }
 
-// ── Transition ────────────────────────────────────────────────
-function goTo(next, direction) {
-  const fromPanel = document.getElementById(`panel-${current}`);
-  const toPanel   = document.getElementById(`panel-${next}`);
-
-  fromPanel.className = 'step-panel ' + (direction > 0 ? 'exit-left' : 'exit-right');
-  toPanel.className   = 'step-panel ' + (direction > 0 ? 'enter-right' : 'enter-left');
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      toPanel.className = 'step-panel active';
-      setTimeout(() => { fromPanel.className = 'step-panel enter-right'; }, 350);
-    });
-  });
-
-  current = next;
-  updateUI();
+/* validate page 1 */
+function vP1() {
+  let ok = true;
+  const checks = [
+    () => { const v = document.getElementById('fullName').value.trim(); clrE('fullName'); if (!v) { shwE('fullName','Full name is required'); return false; } return true; },
+    () => { const v = document.getElementById('dob').value; clrE('dob'); if (!v) { shwE('dob','Date of birth is required'); return false; } return true; },
+    () => {
+      const dob = document.getElementById('dob').value;
+      const a = parseInt(document.getElementById('age').value);
+      clrE('age');
+      if (dob && (isNaN(a) || a < 15 || a > 60)) { shwE('age','Age must be between 15 and 60'); return false; }
+      return true;
+    },
+    () => {
+      const raw = document.getElementById('mobile').value.replace(/\s/g,'');
+      const c = raw.startsWith('+91') ? raw.slice(3) : (raw.startsWith('91') && raw.length===12 ? raw.slice(2) : raw);
+      clrE('mobile');
+      if (!c || !/^[6-9]\d{9}$/.test(c)) { shwE('mobile','Enter a valid 10-digit Indian number'); return false; }
+      return true;
+    },
+    () => { const v = document.getElementById('email').value.trim(); clrE('email'); if (!v||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { shwE('email','Enter a valid email address'); return false; } return true; },
+    () => { clrE('gender'); if (!document.getElementById('gender').value) { shwE('gender','Please select gender'); return false; } return true; },
+    () => { clrE('state'); if (!document.getElementById('state').value) { shwE('state','Please select a state'); return false; } return true; },
+    () => { clrE('city'); if (!document.getElementById('city').value) { shwE('city','Please select a city'); return false; } return true; },
+  ];
+  checks.forEach(fn => { if (!fn()) ok = false; });
+  if (!ok) { const fe = document.querySelector('#p1 .err.on'); if (fe) fe.scrollIntoView({behavior:'smooth',block:'center'}); }
+  return ok;
 }
 
-// ── Validate ──────────────────────────────────────────────────
-function validate(idx) {
-  const step = STEPS[idx];
-  if (!step.required) return true;
+/* validate page 2 */
+function vP2() {
+  let ok = true;
+  const h = parseFloat(document.getElementById('height').value);
+  clrE('height'); if (!h || h<100||h>250) { shwE('height','Enter valid height (100–250 cm)'); ok=false; }
+  const ex = document.getElementById('experience').value;
+  clrE('experience'); if (ex===''||parseFloat(ex)<0) { shwE('experience','Playing experience is required'); ok=false; }
+  clrE('highestLevel'); if (!document.getElementById('highestLevel').value) { shwE('highestLevel','Please select highest level'); ok=false; }
+  if (!ok) { const fe = document.querySelector('#p2 .err.on'); if (fe) fe.scrollIntoView({behavior:'smooth',block:'center'}); }
+  return ok;
+}
 
-  let val = '';
-  if (step.type === 'file') {
-    const el = document.getElementById(`input-${step.id}`);
-    val = el.files.length > 0 ? 'ok' : '';
-  } else {
-    val = (document.getElementById(`input-${step.id}`)?.value || '').trim();
+/* ─── Page navigation ────────────────────────────────────── */
+let cur = 1;
+
+function goTo(next) {
+  const from = document.getElementById('p' + cur);
+  const to   = document.getElementById('p' + next);
+  const fwd  = next > cur;
+
+  from.className = 'panel ' + (fwd ? 'off-l' : 'off-r');
+  to.className   = 'panel ' + (fwd ? 'off-r' : 'off-l');
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    to.className = 'panel active';
+    setTimeout(() => { if (from !== to) from.style.display = ''; }, 420);
+  }));
+
+  cur = next;
+  syncUI();
+}
+
+function syncUI() {
+  const bbk = document.getElementById('bbk');
+  const bnx = document.getElementById('bnx');
+  const bsb = document.getElementById('bsb');
+
+  bbk.style.display = cur === 1 ? 'none' : 'flex';
+  bnx.style.display = cur === 2 ? 'none' : 'flex';
+  bsb.style.display = cur === 2 ? 'flex' : 'none';
+
+  document.getElementById('prog-lbl').textContent = cur === 1 ? 'Basic Info' : 'Player Details';
+  document.getElementById('prog-cnt').textContent = `Page ${cur} of 2`;
+  document.getElementById('s1').className = 'prog-seg on';
+  document.getElementById('s2').className = 'prog-seg' + (cur===2?' on':'');
+}
+
+document.getElementById('bnx').addEventListener('click', () => {
+  if (vP1()) {
+    document.getElementById('p1').style.display = '';
+    goTo(2);
   }
-
-  const err = document.getElementById(`err-${step.id}`);
-  if (!val) {
-    err.classList.add('show');
-    return false;
-  }
-  err.classList.remove('show');
-  return true;
-}
-
-// ── Navigation ────────────────────────────────────────────────
-document.getElementById('btn-next').addEventListener('click', () => {
-  if (!validate(current)) return;
-  if (current < TOTAL - 1) goTo(current + 1, 1);
+});
+document.getElementById('bbk').addEventListener('click', () => {
+  document.getElementById('p2').style.display = '';
+  goTo(1);
+});
+document.getElementById('bsb').addEventListener('click', () => {
+  if (!vP2()) return;
+  document.getElementById('p2').style.display    = 'none';
+  document.getElementById('nav').style.display   = 'none';
+  document.getElementById('prog-block').style.display = 'none';
+  const s = document.getElementById('suc');
+  s.classList.add('on');
+  boom();
 });
 
-document.getElementById('btn-back').addEventListener('click', () => {
-  if (current > 0) goTo(current - 1, -1);
-});
-
-// ── Submit ────────────────────────────────────────────────────
-document.getElementById('btn-submit').addEventListener('click', () => {
-  if (!validate(current)) return;
-
-  document.getElementById('reg-form').style.display   = 'none';
-  document.getElementById('nav-buttons').style.display = 'none';
-
-  const ss = document.getElementById('success-screen');
-  ss.classList.add('show');
-
-  // Confetti
-  const cc = document.getElementById('confetti-container');
-  const colors = ['#f5c842','#e6b800','#fde89a','#ffffff','#c0392b','#27ae60'];
-  for (let i = 0; i < 48; i++) {
+/* confetti */
+function boom() {
+  const box = document.getElementById('cfbox');
+  const clrs = ['#C9960C','#D4A017','#E8C060','#ffffff','#B8850A','#F0D080','#7c5400'];
+  for (let i = 0; i < 55; i++) {
     const p = document.createElement('div');
-    p.className = 'confetti-piece';
+    p.className = 'cf';
+    const sz = 5 + Math.random()*9;
     p.style.cssText = `
-      left:${Math.random()*100}%;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-delay:${Math.random()*.8}s;
-      animation-duration:${1.2+Math.random()*.8}s;
-      width:${6+Math.random()*8}px; height:${6+Math.random()*8}px;
-      border-radius:${Math.random()>.5?'50%':'3px'};
+      left:${Math.random()*100}%;top:-8px;
+      width:${sz}px;height:${sz}px;
+      background:${clrs[Math.floor(Math.random()*clrs.length)]};
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-delay:${(Math.random()*.85).toFixed(2)}s;
+      animation-duration:${(1.3+Math.random()*.85).toFixed(2)}s;
     `;
-    cc.appendChild(p);
+    box.appendChild(p);
   }
+}
+
+/* live clear errors */
+document.querySelectorAll('.inp').forEach(el => {
+  ['input','change'].forEach(ev => el.addEventListener(ev, () => clrE(el.id)));
 });
 
-// Enter key → next
+/* enter key */
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    const nextBtn   = document.getElementById('btn-next');
-    const submitBtn = document.getElementById('btn-submit');
-    if (!nextBtn.classList.contains('hidden')) nextBtn.click();
-    else if (!submitBtn.classList.contains('hidden')) submitBtn.click();
-  }
+  if (e.key !== 'Enter' || ['SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+  const nx = document.getElementById('bnx'), sb = document.getElementById('bsb');
+  if (nx.style.display !== 'none') nx.click();
+  else if (sb.style.display !== 'none') sb.click();
 });
 
-// ── Init ──────────────────────────────────────────────────────
-updateUI();
+syncUI();
 </script>
 </body>
 </html>
