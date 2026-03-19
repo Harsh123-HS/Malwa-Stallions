@@ -183,7 +183,10 @@ select.inp option { background:var(--navy-800); color:var(--text); }
 .btn-gold {
   display:flex; align-items:center; justify-content:center; gap:.4rem;
   width:100%;
-  background:linear-gradient(135deg,#A87409 0%,#C9960C 35%,#D4A017 60%,#B8850A 100%);
+background: linear-gradient(
+  135deg,
+  #E8C060 
+);
   background-size:200% 100%;
   color:#060400;
   font-family:'Rajdhani',sans-serif; font-weight:700;
@@ -192,11 +195,7 @@ select.inp option { background:var(--navy-800); color:var(--text); }
   transition:background-position .35s,box-shadow .3s,transform .15s;
   box-shadow:0 2px 18px rgba(0,0,0,.32);
 }
-.btn-gold:hover {
-  background-position:100% 0;
-  box-shadow:0 0 32px rgba(201,150,12,.48),0 4px 20px rgba(0,0,0,.45);
-  transform:translateY(-1px);
-}
+
 .btn-gold:active { transform:scale(.98); box-shadow:none; }
 
 .btn-ghost {
@@ -264,8 +263,11 @@ select.inp option { background:var(--navy-800); color:var(--text); }
 
   <!-- Branding -->
   <div class="brand ">
-  <img src="./Logo.png" alt="" class="md:w-44 md:h-44 w-24 h-24 item-center md:ml-60 ml-28 pl-4 md mb-4">
-    <!-- <h1 class="brand-name">CRICKET ACADEMY</h1> -->
+ <div class="brand flex flex-col items-center">
+  <img src="./Logo.png" 
+       alt="Logo" 
+       class="md:w-44 md:h-44 w-24 h-24 mb-4">
+</div>
     <p class="brand-tag">Player Registration 2026</p>
     <div class="brand-rule"></div>
   </div>
